@@ -49,6 +49,19 @@ class KubrowController extends Controller{
   }
 
   /**
+  *@Route("accueil")
+  **/
+  public function accueil() {
+
+      $kubs = $this->getDoctrine()->getRepository(Kubrow::class)->findAll();
+      if(!$kubs) {
+        throw $this->createNotFoundException("Oups... Il semblerait qu'il y ait aucun kubrow en vente");
+      }
+      return $this->render('base.html.twig', array('kubrows' => $kubs ));
+
+  }
+
+  /**
   *@Route("kubrow")
   **/
   public function getAllKubrowOnSale() {
