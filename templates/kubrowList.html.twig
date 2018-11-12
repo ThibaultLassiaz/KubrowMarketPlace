@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Kubrows!{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+        {% for kubrow in kubrows %}
+        <li>Le kubrow {{kubrow.id}} est de race {{ kubrow.breed|e }}</li>
+        {% endfor %}
+    </body>
+
+</html>
