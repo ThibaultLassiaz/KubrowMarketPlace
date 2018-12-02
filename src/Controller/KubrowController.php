@@ -4,10 +4,12 @@
 namespace App\Controller;
 
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Entity\Kubrow;
+// use App\Services\CombinaisonGenerationService;
 
-class KubrowController extends Controller{
+class KubrowController extends Controller {
 
   /**
   *@Route("kubrow/{KubId}")
@@ -53,12 +55,38 @@ class KubrowController extends Controller{
   **/
   public function accueil() {
 
+      // dummies made to GeneratedValue
+      // TO DO : form research
+      $data = [
+            'primary' => [
+                'gold',
+                'red'
+            ],
+            'secondary' => [
+                'black',
+                'navy blue',
+            ],
+            'tertiary' => [
+                'green',
+                'gold',
+            ],
+            'energy' => [
+                'gold',
+                'liliac',
+            ]
+        ];
+
+    $possibleKubrows = $this->get('CombinaisonService')->generateCombinaisons($data);
+
       $kubs = $this->getDoctrine()->getRepository(Kubrow::class)->findAll();
       if(!$kubs) {
         throw $this->createNotFoundException("Oups... Il semblerait qu'il y ait aucun kubrow en vente");
       }
-      return $this->render('base.html.twig', array('kubrows' => $kubs ));
-
+      return $this->render('base.html.twig',
+      [
+          'kubrows' => $kubs,
+          'possibleKubrows' => $possibleKubrows,
+      ]);
   }
 
   /**

@@ -52,7 +52,7 @@ class Kubrow
     private $pattern;
 
     /**
-    * @ORM\Column(type="boolean", options={"default" : 1})
+    * @ORM\Column(type="boolean", options={"default" : 0})
     */
     private $isSold;
 
