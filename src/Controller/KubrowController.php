@@ -58,6 +58,10 @@ class KubrowController extends Controller {
       // dummies made to GeneratedValue
       // TO DO : form research
       $data = [
+            'build' => [
+                'bulky',
+                'athletic'
+            ],
             'primary' => [
                 'gold',
                 'red'
