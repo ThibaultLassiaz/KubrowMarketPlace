@@ -3,10 +3,6 @@
 namespace App\Form\Handler;
 
 use App\Entity\User;
-<<<<<<< HEAD
-=======
-use App\Model\User as UserModel;
->>>>>>> 1b49ca9... wip
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMException;
 use Psr\Log\LoggerInterface;
@@ -37,28 +33,17 @@ class UserHandler
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-<<<<<<< HEAD
             $userData = $form->getData();
-=======
-            /**
-            * @var UserModel $userModel
-            */
-            $userModel = $form->getData();
->>>>>>> 1b49ca9... wip
 
             /**
             * @var User $user
             */
             $user = new User();
-<<<<<<< HEAD
-            $user->setUsername($userData->username);
-            $user->setPassword($userData->password);
-            $user->setMail($userData->email);
-=======
+
             $user->setUsername($userModel->username);
             $user->setPassword($userModel->password);
             $user->setMail($userModel->email);
->>>>>>> 1b49ca9... wip
+
             $user->setRoles(['ROLE_USER']);
 
             try {
