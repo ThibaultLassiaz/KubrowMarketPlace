@@ -3,11 +3,15 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(fields={"mail"}, message="It looks like your already have an account!")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -18,23 +22,21 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull(message="Please enter a name")
      */
-    private $login;
+    private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull(message="Please enter a password")
      */
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull(message="Please enter your email")
      */
-    private $nom;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $prenom;
+    private $mail;
 
     /**
      * @ORM\Column(type="datetime")
@@ -51,14 +53,14 @@ class User
         return $this->id;
     }
 
-    public function getLogin(): ?string
+    public function getUsername(): ?string
     {
-        return $this->login;
+        return $this->username;
     }
 
-    public function setLogin(string $login): self
+    public function setUsername(string $username): self
     {
-        $this->login = $login;
+        $this->username = $username;
 
         return $this;
     }
@@ -71,30 +73,6 @@ class User
     public function setPassword(string $password): self
     {
         $this->password = $password;
-
-        return $this;
-    }
-
-    public function getNom(): ?string
-    {
-        return $this->nom;
-    }
-
-    public function setNom(?string $nom): self
-    {
-        $this->nom = $nom;
-
-        return $this;
-    }
-
-    public function getPrenom(): ?string
-    {
-        return $this->prenom;
-    }
-
-    public function setPrenom(?string $prenom): self
-    {
-        $this->prenom = $prenom;
 
         return $this;
     }
@@ -113,7 +91,7 @@ class User
 
     public function getRoles(): ?array
     {
-        return $this->roles;
+        return array_unique($this->roles);
     }
 
     public function setRoles(array $roles): self
@@ -122,4 +100,49 @@ class User
 
         return $this;
     }
+
+    /**
+    * Get the value of Mail
+    *
+    * @return mixed
+    */
+    public function getMail(): ?string
+    {
+        return $this->mail;
+    }
+
+    /**
+    * Set the value of Mail
+    *
+    * @param mixed mail
+    *
+    * @return self
+    */
+    public function setMail(string $mail): self
+    {
+        $this->mail = $mail;
+
+        return $this;
+    }
+
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    public function eraseCredentials(): void
+    {
+
+    }
+
+    public function serialize(): string
+    {
+        return serialize([$this->id, $this->username, $this->password]);
+    }
+
+    public function unserialize($erialized): void
+    {
+        [$this->id, $this->username, $this->password] = unserialize($erialized, ['allowed_classes' => false]);
+    }
+
 }
