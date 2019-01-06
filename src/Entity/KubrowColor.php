@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\FurColorRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\KubrowColorRepository")
  */
-class FurColor
+class KubrowColor
 {
     /**
      * @ORM\Id()
@@ -22,7 +22,7 @@ class FurColor
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=10)
+     * @ORM\Column(type="string", length=10, nullable=true)
      */
     private $hexa;
 
